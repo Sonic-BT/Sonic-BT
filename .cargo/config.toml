@@ -1,7 +1,13 @@
 [target.riscv32imac-unknown-none-elf]
-runner = "probe-rs run --chip=esp32c6 --always-print-stacktrace --no-location --catch-hardfault"
+runner = "espflash flash --monitor --chip esp32c6"
 
 [env]
+ESP_LOG="info"
+WIFI_CHANNEL="11"
+WIFI_SSID="Test_Wifi"
+WIFI_PASSWORD=""
+MAX_PAYLOAD_SIZE="128"
+STACK_SIZE="1024"
 
 [build]
 rustflags = [
