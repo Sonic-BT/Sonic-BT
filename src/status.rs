@@ -30,7 +30,7 @@ fn check_message(message: Message) -> String<132> {
             format_string
                 .push_str(message.as_str())
                 .expect("Cannot push_str message tring to end of the [`heapless::String`]");
-            return format_string;
+            format_string
         }
         None => String::new(),
     }
