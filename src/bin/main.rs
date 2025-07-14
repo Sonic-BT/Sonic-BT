@@ -14,8 +14,6 @@ use log::info;
 
 extern crate alloc;
 
-use sonic_bt;
-
 #[allow(unused)]
 const WIFI_CHANNEL: u8 = esp_config_int!(u8, "WIFI_CHANNEL");
 #[allow(unused)]

@@ -37,7 +37,7 @@ fn check_message(message: Message) -> String<132> {
 }
 
 #[embassy_executor::task]
-pub async fn run() -> () {
+pub async fn run() {
     let mut sub = STATUS.subscriber().unwrap();
 
     loop {
