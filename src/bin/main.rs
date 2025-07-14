@@ -53,28 +53,49 @@ async fn main(spawner: Spawner) {
 
     spawner.spawn(sonic_bt::status::run()).unwrap();
 
-    sonic_bt::status::STATUS.signal(sonic_bt::status::Status::Ok(Some(
-        String::try_from("abc").unwrap(),
-    )));
+    cfg_if::cfg_if! {
+        if #[cfg(feature = "smart-led")] {
+            use esp_hal::{rmt::{Rmt, ChannelCreator}, time::Rate};
 
-    Timer::after(Duration::from_millis(500)).await;
+            let rmt_channel: ChannelCreator<esp_hal::Async, 0> = Rmt::new(peripherals.RMT, Rate::from_mhz(80)).expect("Failed to initialize RMT0").into_async().channel0;
+            spawner.spawn(sonic_bt::status::led::led_run(rmt_channel, peripherals.GPIO8.into(), 128u8)).unwrap();
+        }
+    }
 
-    sonic_bt::status::STATUS.signal(sonic_bt::status::Status::Warn(None));
+    let publisher = sonic_bt::status::STATUS.publisher().unwrap();
 
-    Timer::after(Duration::from_millis(500)).await;
+    loop {
+        publisher
+            .publish(sonic_bt::status::Status::Ok(Some(
+                String::try_from("abc").unwrap(),
+            )))
+            .await;
 
-    sonic_bt::status::STATUS.signal(sonic_bt::status::Status::Err(None));
+        Timer::after(Duration::from_millis(500)).await;
 
-    Timer::after(Duration::from_millis(500)).await;
+        publisher
+            .publish(sonic_bt::status::Status::Warn(None))
+            .await;
 
-    sonic_bt::status::STATUS.signal(sonic_bt::status::Status::Ok(Some(
-        String::try_from("abc11").unwrap(),
-    )));
+        Timer::after(Duration::from_millis(500)).await;
 
-    Timer::after(Duration::from_millis(500)).await;
+        publisher.publish(sonic_bt::status::Status::Err(None)).await;
 
-    sonic_bt::status::STATUS.signal(sonic_bt::status::Status::Ok(Some(
-        String::try_from("abc22").unwrap(),
-    )));
+        Timer::after(Duration::from_millis(500)).await;
+
+        publisher
+            .publish(sonic_bt::status::Status::Ok(Some(
+                String::try_from("abc11").unwrap(),
+            )))
+            .await;
+
+        Timer::after(Duration::from_millis(500)).await;
+
+        publisher
+            .publish(sonic_bt::status::Status::Ok(Some(
+                String::try_from("abc22").unwrap(),
+            )))
+            .await;
+    }
     // for inspiration have a look at the examples at https://github.com/esp-rs/esp-hal/tree/esp-hal-v1.0.0-beta.0/examples/src/bin
 }

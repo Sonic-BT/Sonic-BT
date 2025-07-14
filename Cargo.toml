@@ -3,6 +3,10 @@ edition = "2021"
 name    = "sonic-bt"
 version = "0.1.0"
 
+[features]
+default = ["smart-led"]
+smart-led = []
+
 [[bin]]
 name = "sonic-bt"
 path = "./src/bin/main.rs"
@@ -49,6 +53,8 @@ static_cell = { version = "2.1.0", features = ["nightly"] }
 cfg-if = "1.0.1"
 edge-dhcp = "0.6.0"
 esp-config = "0.4.0"
+esp-hal-smartled = { version = "0.15.0", features = ["esp32c6"] }
+smart-leds = "0.4.0"
 embassy-sync = { version = "0.7.0", features = ["log"] }
 
 [profile.dev]
