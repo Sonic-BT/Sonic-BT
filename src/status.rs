@@ -18,6 +18,23 @@ pub enum Status {
 /// detect system status at the same time.
 pub static STATUS: PubSubChannel<CriticalSectionRawMutex, Status, 2, 2, 4> = PubSubChannel::new();
 
+#[macro_export]
+macro_rules! create_publisher {
+    () => {
+        use embassy_sync;
+        use sonic_bt;
+
+        let mut publisher: embassy_sync::pubsub::Publisher<
+            'static,
+            embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex,
+            Status,
+            2,
+            2,
+            4,
+        > = sonic_bt::status::STATUS.publisher().unwrap();
+    };
+}
+
 /// # Check Message Contents
 /// if message contents arn't a empty string
 /// e.g. "" then include in log message.

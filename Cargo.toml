@@ -21,14 +21,14 @@ embassy-net = { version = "0.7.0", features = [
 embedded-io = "0.6.1"
 embedded-io-async = "0.6.1"
 esp-alloc = "0.8.0"
-esp-backtrace = { version = "0.16.0", features = [
+esp-backtrace = { version = "0.17.0", features = [
   "esp32c6",
   "exception-handler",
   "panic-handler",
   "println",
 ] }
 esp-hal = { version = "1.0.0-beta.1", features = ["esp32c6", "unstable"] }
-esp-println = { version = "0.14.0", features = ["esp32c6", "log-04"] }
+esp-println = { version = "0.15.0", features = ["esp32c6", "log-04"] }
 log = { version = "0.4.27" }
 smoltcp = { version = "0.12.0", default-features = false, features = [
   "medium-ethernet",
@@ -44,18 +44,30 @@ smoltcp = { version = "0.12.0", default-features = false, features = [
 ] }
 # for more networking protocol support see https://crates.io/crates/edge-net
 critical-section = "1.2.0"
-embassy-executor = { version = "0.7.0", features = ["task-arena-size-20480"] }
+embassy-executor = { version = "0.7.0", features = ["log", "task-arena-size-16384"] }
 embassy-time = { version = "0.4.0", features = ["generic-queue-8"] }
-esp-hal-embassy = { version = "0.8.1", features = ["esp32c6"] }
-esp-wifi = { version = "0.14.1", features = ["builtin-scheduler", "esp-alloc", "esp32c6", "wifi", "log-04"] }
-heapless = { version = "0.8.0", default-features = false }
+esp-hal-embassy = { version = "0.9.0", features = ["esp32c6"] }
+esp-wifi = { version = "0.15.0", features = ["builtin-scheduler", "esp-alloc", "esp32c6", "wifi", "log-04"] }
+heapless = { version = "0.9.1", default-features = false }
 static_cell = { version = "2.1.0", features = ["nightly"] }
 cfg-if = "1.0.1"
 edge-dhcp = "0.6.0"
-esp-config = "0.4.0"
-esp-hal-smartled = { version = "0.15.0", features = ["esp32c6"] }
-smart-leds = "0.4.0"
+esp-config = "0.5.0"
+# esp-hal-smartled = { version = "0.15.0", features = ["esp32c6"] }
+# smart-leds = "0.4.0"
 embassy-sync = { version = "0.7.0", features = ["log"] }
+embassy-futures = { version = "0.1.1", features = ["log"] }
+edge-nal-embassy = "0.6.0"
+edge-captive = "0.6.0"
+edge-nal = "0.5.0"
+edge-http = "0.6.0"
+httparse = { version = "1.10.1", default-features = false }
+enumset = { version = "1.1.7", default-features = false }
+picoserve = { version = "0.16.0", features = ["alloc", "embassy", "log"] }
+esp-bootloader-esp-idf = { version = "0.2.0", features = ["esp32c6", "log-04"] }
+epd-waveshare = { version = "0.6.0", default-features = false, features = ["embedded-graphics-core", "epd2in13_v3", "graphics"]}
+embedded-hal-bus = { version = "0.3.0", features = ["alloc", "async"] }
+embedded-graphics = "0.8.1"
 
 [profile.dev]
 # Rust debug is too slow.
